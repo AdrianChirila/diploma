@@ -1,0 +1,15 @@
+{
+    "restartable": "rs",
+    "ignore": [".git", "node_modules/", "dist/", "coverage/"],
+    "watch": ["server/"],
+    "execMap": {
+      "ts": "node -r ts-node/register"
+    },
+    "env": {
+      "NODE_ENV": "development",
+      "APP_SERVER_HOST": "localhost",
+      "APP_SERVER_PORT": "3002"
+    },
+    "ext": "js,json,ts"
+  }
+  
