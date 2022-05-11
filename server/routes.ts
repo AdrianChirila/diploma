@@ -7,9 +7,14 @@ import {
   createUserSessionHandler,
   invalidateUserSessionHandler,
   getUserSessionHandler,
+  createPostHandler,
+  updatePostHandler,
+  deletePostHandler,
+  getPostsHandler,
+  getPostHandler,
 } from "./controller";
-import { createUserSchema, editUserSchema, createSessionSchema } from "./schema";
-import { validateRequest, requireUser } from "./middleware";
+import { createUserSchema, editUserSchema, createSessionSchema, createPostSchema } from "./schema";
+import { validateRequest, requireUser, requireAdmin } from "./middleware";
 
 export const routes = (app: Express) => {
   /**
@@ -57,5 +62,33 @@ export const routes = (app: Express) => {
    *  /sessions
    */
   app.delete("/sessions", requireUser, invalidateUserSessionHandler);
+  //#endregion
+
+  //#region Posts
+  /**
+   *  Create post
+   *  /posts/create
+   */
+  app.post("/posts/create", [requireAdmin, validateRequest(createPostSchema)], createPostHandler);
+  /**
+   *  Update post
+   *  /posts/edit/:postId
+   */
+  app.put("/posts/edit/:postId", [requireAdmin, validateRequest(createPostSchema)], updatePostHandler);
+  /**
+   *  Delete post
+   *  /posts/delete/:postId
+   */
+  app.delete("/posts/delete/:postId", requireAdmin, deletePostHandler);
+  /**
+   *  Get post
+   *  /posts/:postId
+   */
+  app.get("/posts/:postId", requireUser, getPostHandler);
+  /**
+   *  Get posts
+   *  /posts
+   */
+  app.get("/posts", requireUser, getPostsHandler);
   //#endregion
 };

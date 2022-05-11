@@ -13,7 +13,7 @@ export const createUserHandler = async (request: Request, response: Response) =>
   }
 };
 
-export const getUsersHandler = async (request: Request, response: Response) => {
+export const getUsersHandler = async (_: Request, response: Response) => {
   try {
     const users = await getUsers();
     return response.send(users.map(user => omit(user.toJSON(), "password")));

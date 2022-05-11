@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { get } from "lodash";
 import { reIssueAccessToken } from "../service";
 import { decode } from "../utils/jwt";
+import { log } from "../utils/logger";
 
 export async function deserializeUser(request: Request, response: Response, next: NextFunction) {
   const accessToken = get(request, "headers.authorization", "").replace(/^Bearer\s/, "");
