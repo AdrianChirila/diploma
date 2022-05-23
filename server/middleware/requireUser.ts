@@ -1,11 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { get } from "lodash";
 import { UserType } from "../model/user";
-import { log } from "../utils/logger";
 
 export async function requireUser(request: Request, response: Response, next: NextFunction) {
   const user = get(request, "user");
-  log.info(user);
   if (!user) {
     return response.sendStatus(403);
   }

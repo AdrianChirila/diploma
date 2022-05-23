@@ -28,3 +28,9 @@ export const editUserSchema = object({
     email: string().email("Must be an email"),
   }),
 });
+
+export const getUserSchema = object({
+  body: object({
+    email: string().email("Must be an email"),
+  }),
+});

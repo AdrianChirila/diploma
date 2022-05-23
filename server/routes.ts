@@ -4,6 +4,7 @@ import {
   deleteUserHandler,
   editUserHandler,
   getUsersHandler,
+  getUserHandler,
   createUserSessionHandler,
   invalidateUserSessionHandler,
   getUserSessionHandler,
@@ -13,7 +14,7 @@ import {
   getPostsHandler,
   getPostHandler,
 } from "./controller";
-import { createUserSchema, editUserSchema, createSessionSchema, createPostSchema } from "./schema";
+import { createUserSchema, editUserSchema, createSessionSchema, createPostSchema, getUserSchema } from "./schema";
 import { validateRequest, requireUser, requireAdmin } from "./middleware";
 
 export const routes = (app: Express) => {
@@ -39,6 +40,11 @@ export const routes = (app: Express) => {
    *  /users
    */
   app.get("/users", getUsersHandler);
+  /**
+   *  Get user
+   *  /users
+   */
+  app.post("/user", validateRequest(getUserSchema), getUserHandler);
   /**
    *  Delete user
    *  /users/delete/:userId

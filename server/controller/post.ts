@@ -9,7 +9,7 @@ export const createPostHandler = async (request: Request, response: Response) =>
     return response.send(post.toJSON());
   } catch (error) {
     log.error(error);
-    return response.status(409).send((error as { message: string }).message);
+    return response.status(409).send(error);
   }
 };
 
@@ -27,7 +27,7 @@ export async function updatePostHandler(request: Request, response: Response) {
 
     return response.send(updatedPost);
   } catch (error) {
-    return response.send((error as { message: string }).message);
+    return response.send(error);
   }
 }
 
@@ -44,7 +44,7 @@ export async function deletePostHandler(request: Request, response: Response) {
     await deletePost({ postId });
     return response.sendStatus(200);
   } catch (error) {
-    return response.send((error as { message: string }).message);
+    return response.send(error);
   }
 }
 
@@ -60,7 +60,7 @@ export async function getPostHandler(request: Request, response: Response) {
     return response.send(post);
   } catch (error) {
     log.error(error);
-    return response.status(409).send((error as { message: string }).message);
+    return response.status(409).send(error);
   }
 }
 export async function getPostsHandler(_: Request, response: Response) {
@@ -69,6 +69,6 @@ export async function getPostsHandler(_: Request, response: Response) {
     return response.send(posts.map(user => user.toJSON()));
   } catch (error) {
     log.error(error);
-    return response.status(409).send((error as { message: string }).message);
+    return response.status(409).send(error);
   }
 }

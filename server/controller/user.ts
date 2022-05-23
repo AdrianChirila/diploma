@@ -9,7 +9,7 @@ export const createUserHandler = async (request: Request, response: Response) =>
     return response.send(omit(user.toJSON(), "password"));
   } catch (error) {
     log.error(error);
-    return response.status(409).send((error as { message: string }).message);
+    return response.status(409).send(error);
   }
 };
 
@@ -19,7 +19,20 @@ export const getUsersHandler = async (_: Request, response: Response) => {
     return response.send(users.map(user => omit(user.toJSON(), "password")));
   } catch (error) {
     log.error(error);
-    return response.status(409).send((error as { message: string }).message);
+    return response.status(409).send(error);
+  }
+};
+export const getUserHandler = async (request: Request, response: Response) => {
+  try {
+    const { email } = request.body;
+    const user = await findUser({ email });
+    if (!user) {
+      return response.sendStatus(404);
+    }
+    return response.send(omit(user, "password"));
+  } catch (error) {
+    log.error(error);
+    return response.status(409).send(error);
   }
 };
 

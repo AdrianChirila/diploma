@@ -13,6 +13,6 @@ export const validateRequest =
       return next();
     } catch (error) {
       log.error((error as { message: string }).message);
-      return response.status(400).send((error as { message: string }).message);
+      return response.status(400).send(error);
     }
   };

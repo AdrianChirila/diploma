@@ -8,7 +8,7 @@ export async function createUserSessionHandler(request: Request, response: Respo
   const user = await validatePassword(request.body);
 
   if (!user) {
-    return response.status(401).send("Invalid email or password");
+    return response.status(401).send({ message: "Invalid email or password" });
   }
   // TODO: handle case when `createSession` returns an error
   const session = await createSession(user._id, request.get("user-agent") || "");
