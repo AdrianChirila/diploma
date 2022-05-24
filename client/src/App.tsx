@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useRoutes, Props } from "./routes";
 import { Routes, BrowserRouter } from "react-router-dom";
 import { useAuth } from "./hooks";
@@ -9,10 +8,6 @@ import "materialize-css";
 export const App = () => {
   const { token, userType, login, logout } = useAuth();
   const isAuthenticated = !!token;
-
-  useEffect(() => {
-    M.AutoInit();
-  });
 
   const data: Props = token && userType ? { userType, isAuthenticated: true } : { isAuthenticated: false };
 

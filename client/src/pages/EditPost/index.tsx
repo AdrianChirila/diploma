@@ -1,25 +1,30 @@
-import { useState, useCallback, ChangeEvent, useContext, useEffect } from "react";
+import { ChangeEvent, useCallback, useContext, useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { Loading } from "../../components/Loading";
 import { AuthContext } from "../../context/Auth";
 import { useHttp, useMessage, useSetTextFieldsActive } from "../../hooks";
 
-export const CreatePost = () => {
+export const EditPost = () => {
   useSetTextFieldsActive();
-
-  const { request, loading, error, removeError } = useHttp();
   const message = useMessage();
+  const { request, loading, error, removeError } = useHttp();
   const { token } = useContext(AuthContext);
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [description, setDescription] = useState("");
   const [img, setImg] = useState("");
 
-  const onSetTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), [setTitle]);
-  const onSetDescription = useCallback(
-    (e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value),
-    [setDescription],
-  );
-  const onSetImg = useCallback((e: ChangeEvent<HTMLInputElement>) => setImg(e.target.value), [setImg]);
-  const onSetContent = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value), [setContent]);
+  const getPost = useCallback(async () => {
+    try {
+      const response = await request({ url: `/posts/${id}`, method: "GET", token: token as string });
+      const { title, content, description, img } = response;
+      setContent(content);
+      setDescription(description);
+      setTitle(title);
+      setImg(img);
+    } catch (error) {}
+  }, [request, id, token]);
 
   useEffect(() => {
     if (error) {
@@ -28,10 +33,14 @@ export const CreatePost = () => {
     }
   }, [error, message, removeError]);
 
+  useEffect(() => {
+    getPost();
+  }, [getPost]);
+
   const submitHandler = async () => {
     try {
       const response = await request({
-        url: "/posts/create",
+        url: `/posts/edit/${id}`,
         method: "POST",
         body: {
           title,
@@ -52,6 +61,16 @@ export const CreatePost = () => {
     }
   };
 
+  const onSetTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), [setTitle]);
+  const onSetDescription = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value),
+    [setDescription],
+  );
+  const onSetImg = useCallback((e: ChangeEvent<HTMLInputElement>) => setImg(e.target.value), [setImg]);
+  const onSetContent = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value), [setContent]);
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="row">
       <div className="col s8 offset-s2" style={{ paddingTop: "2rem" }}>

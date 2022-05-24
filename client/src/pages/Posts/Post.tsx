@@ -9,18 +9,20 @@ export type Props = {
 
 export const Post = ({ id, img, title, description }: Props) => {
   return (
-    <div className="col s12 m7">
-      <h2 className="header">{title}</h2>
+    <div style={{ marginTop: "2rem" }} className="col s12 m7">
       <div className="card horizontal">
         <div className="card-image">
           <img style={{ height: "15rem", width: "15rem" }} alt="post image" src={img} />
         </div>
         <div className="card-stacked">
+          <h3 style={{ marginLeft: "1.8rem" }} className="header">
+            {title}
+          </h3>
           <div className="card-content">
             <p>{description}</p>
           </div>
           <div className="card-action">
-            <Link to={`/posts${id}`}>Go to Post </Link>
+            <Link to={`/posts/:${id}`}>Go to Post </Link>
           </div>
         </div>
       </div>

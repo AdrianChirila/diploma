@@ -26,7 +26,7 @@ export const Navbar = (): React.ReactElement => {
             </li>
           )}
           <li>
-            <Link to="/posts">Go to Post </Link>
+            <Link to="/playground">Playground </Link>
           </li>
           <li>
             <a onClick={logoutHandler}>Log Out</a>

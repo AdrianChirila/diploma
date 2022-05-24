@@ -1,22 +1,39 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { Loading } from "../../components/Loding";
+import { useNavigate, useParams } from "react-router";
+import { Loading } from "../../components/Loading";
 import { AuthContext } from "../../context/Auth";
-import { useAuth, useHttp } from "../../hooks";
+import { useHttp, useMessage, useSetTextFieldsActive } from "../../hooks";
+import { UserType } from "../../types";
+import { PostCard } from "./PostCard";
 
 export const ViewPost = () => {
-  const { request, loading, error } = useHttp();
-  const { token } = useContext(AuthContext);
+  useSetTextFieldsActive();
+  const navigate = useNavigate();
+  const message = useMessage();
   const { id } = useParams();
-  const [header, setHeader] = useState(undefined);
-  const [content, setContent] = useState(undefined);
+  console.log(id);
+
+  const { request, loading, error } = useHttp();
+  const { token, userType } = useContext(AuthContext);
+  const [title, setHeader] = useState("");
+  const [content, setContent] = useState("");
+  const [img, setImg] = useState("");
 
   const getPost = useCallback(async () => {
     try {
       const response = await request({ url: `/posts/${id}`, method: "GET", token: token as string });
-      const { header, content } = response;
+      const { title, content, img } = response;
       setContent(content);
-      setHeader(header);
+      setHeader(title);
+      setImg(img);
+    } catch (error) {}
+  }, [request, id, token]);
+
+  const deletePost = useCallback(async () => {
+    try {
+      const response = await request({ url: `/posts/delete/${id}`, method: "DELETE", token: token as string });
+
+      navigate("/");
     } catch (error) {}
   }, [request, id, token]);
 
@@ -27,5 +44,14 @@ export const ViewPost = () => {
   if (loading) {
     return <Loading />;
   }
-  return <></>;
+  return (
+    <PostCard
+      content={content}
+      title={title}
+      img={img}
+      id={id as string}
+      onDelete={deletePost}
+      isAdmin={userType === UserType.Admin}
+    />
+  );
 };

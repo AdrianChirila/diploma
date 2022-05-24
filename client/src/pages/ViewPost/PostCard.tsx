@@ -1,28 +1,41 @@
+import { Link } from "react-router-dom";
+
 export type Props = {
-  header: string;
+  id: string;
+  isAdmin: boolean;
+  img: string;
+  title: string;
   content: string;
+  onDelete: () => void;
 };
 
-export const PostCard = ({ content, header }: Props) => {
+export const PostCard = ({ content, title, img, isAdmin, id, onDelete }: Props) => {
   return (
-    <>
-      <div className="row">
-        <div className="col s12 m7">
-          <div className="card">
-            <div className="card-image">
-              <img src="images/sample-1.jpg" />
-              <span className="card-title">Card Title</span>
-            </div>
+    <div className="container">
+      <div style={{ marginTop: "4rem" }} className="col s12 m7">
+        <div className="card horizontal">
+          <div className="card-image">
+            <img style={{ height: "15rem", width: "15rem" }} alt="post image" src={img} />
+          </div>
+          <div className="card-stacked">
+            <h3 style={{ marginLeft: "1.5rem" }} className="header">
+              {title}
+            </h3>
             <div className="card-content">
-              <p>
-                I am a very simple card. I am good at containing small bits of information. I am convenient because I
-                require little markup to use effectively.
-              </p>
+              <p>{content}</p>
             </div>
-            <div className="card-action"></div>
+            {isAdmin && (
+              <div className="card-action">
+                <Link to={`/posts/edit/${id}`}>Edit Post</Link>
+
+                <button className="btn grey" style={{ marginRight: 10 }} onClick={onDelete}>
+                  Delete Post
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

@@ -18,7 +18,7 @@ export async function updatePostHandler(request: Request, response: Response) {
     const postId = get(request, "params.postId");
     const update = request.body;
 
-    const post = await findPost({ postId });
+    const post = await findPost({ _id: postId });
 
     if (!post) {
       return response.sendStatus(404);

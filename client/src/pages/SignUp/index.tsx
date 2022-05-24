@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { UserType } from "../../types";
 
 export const SignUp = (): ReactElement => {
+  useSetTextFieldsActive();
   const { error, loading, removeError, request } = useHttp();
   const message = useMessage();
-  useSetTextFieldsActive();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
