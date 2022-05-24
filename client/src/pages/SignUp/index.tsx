@@ -42,13 +42,14 @@ export const SignUp = (): ReactElement => {
   const submitHandler = async () => {
     try {
       const data = await request({
-        url: "/user/create",
+        url: "/users/create",
         method: "POST",
         body: {
           name,
           email,
           passwordConfirmation,
           password,
+          userType,
         },
       });
       data && message("your user was created");
@@ -98,6 +99,7 @@ export const SignUp = (): ReactElement => {
 
               <div className="input-field ">
                 <input
+                  type="password"
                   id="password"
                   name="password"
                   value={password}

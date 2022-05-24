@@ -1,10 +1,9 @@
-import React from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
-// import { PostsPage } from "./pages/Posts";
+import { Route, Navigate } from "react-router-dom";
 import { PostsList } from "./pages/Posts";
-import { CreatePost } from "./pages/CreatePost";
 import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
+import { CreatePost } from "./pages/CreatePost";
+import { ViewPost } from "./pages/ViewPost";
 import { UserType } from "./types";
 
 export type Props =
@@ -22,6 +21,7 @@ export const useRoutes = (props: Props) => {
           <>
             <Route path="/posts/create" element={<CreatePost />} />
             <Route path="/posts" element={<PostsList />} />
+            <Route path="/posts/:id" element={<ViewPost />} />
 
             <Route path="*" element={<Navigate to="/posts" />} />
           </>
@@ -31,7 +31,7 @@ export const useRoutes = (props: Props) => {
         return (
           <>
             <Route path="/posts" element={<PostsList />} />
-            <Route path="/posts" element={<PostsList />} />
+            <Route path="/posts/:id" element={<ViewPost />} />
 
             <Route path="*" element={<Navigate to="/posts" />} />
           </>

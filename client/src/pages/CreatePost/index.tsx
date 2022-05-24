@@ -1,14 +1,59 @@
-import { useState, useCallback, ChangeEvent } from "react";
+import { useState, useCallback, ChangeEvent, useContext, useEffect } from "react";
+import { AuthContext } from "../../context/Auth";
+import { useHttp, useMessage, useSetTextFieldsActive } from "../../hooks";
 
 export const CreatePost = () => {
-  const [header, setHeader] = useState("");
-  const [content, setContent] = useState("");
+  useSetTextFieldsActive();
 
-  const onSetHeader = useCallback((e: ChangeEvent<HTMLInputElement>) => setHeader(e.target.value.trim()), [setHeader]);
-  const onSetContent = useCallback(
-    (e: ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value.trim()),
-    [setContent],
+  const { request, loading, error,removeError } = useHttp();
+  const message = useMessage()
+  const { token } = useContext(AuthContext);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [description, setDescription] = useState("");
+  const [img, setImg] = useState("");
+
+  const onSetTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), [setTitle]);
+  const onSetDescription = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value),
+    [setDescription],
   );
+  const onSetImg = useCallback((e: ChangeEvent<HTMLInputElement>) => setImg(e.target.value), [setImg]);
+  const onSetContent = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value), [setContent]);
+
+  useEffect(() => {
+    if (error) {
+      message(error);
+      removeError();
+    }
+  }, [error, message, removeError]);
+  
+  const submitHandler = async () => {
+    try {
+      const response = await request({
+        url: "/posts/create",
+        method: "POST",
+        body: {
+          title,
+          content,
+          description,
+          img,
+        },
+        token: token as string,
+      });
+
+      setContent(response.content)
+      setTitle(response.title)
+      setDescription(response.description)
+      setImg(response.img)
+      message("Created Post");
+
+
+    } catch (error) {
+      message(error as string);
+
+    }
+  };
 
   return (
     <div className="row">
@@ -16,16 +61,16 @@ export const CreatePost = () => {
         <div className="input-field">
           <input
             type="text"
-            placeholder={"enter the post header"}
+            placeholder={"enter the post title"}
             name="title"
             id="title"
-            value={header}
-            onChange={onSetHeader}
+            value={title}
+            onChange={onSetTitle}
           />
-          <label htmlFor="title">Post Header</label>
+          <label htmlFor="title">Post Title</label>
         </div>
 
-        <div className="input-field col s12">
+        <div className="input-field ">
           <textarea
             id="content"
             placeholder={"enter the post content"}
@@ -35,6 +80,33 @@ export const CreatePost = () => {
           />
           <label htmlFor="content">Post Content</label>
         </div>
+        <div className="input-field ">
+          <textarea
+            id="description"
+            placeholder={"enter the post description"}
+            className="materialize-textarea"
+            value={description}
+            onChange={onSetDescription}
+          />
+          <label htmlFor="description">Post Description</label>
+        </div>
+        <div className="input-field ">
+          <input
+            id="image"
+            type={"text"}
+            placeholder={"enter the post Image"}
+            className="materialize-textarea"
+            value={img}
+            onChange={onSetImg}
+          />
+          <label htmlFor="image">Post Image</label>
+        </div>
+
+      <div className="card-action center">
+        <button className="btn grey" style={{ marginRight: 10 }} onClick={submitHandler}>
+          Submit
+        </button>
+      </div>
       </div>
     </div>
   );

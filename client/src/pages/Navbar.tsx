@@ -22,7 +22,7 @@ export const Navbar = (): React.ReactElement => {
           </li>
           {userType === UserType.Admin && (
             <li>
-              <Link to="/posts">Go to Create Post </Link>
+              <Link to="/posts/create">Go to Create Post </Link>
             </li>
           )}
           <li>

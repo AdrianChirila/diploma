@@ -12,7 +12,7 @@ export const App = () => {
 
   useEffect(() => {
     M.AutoInit();
-  }, []);
+  });
 
   const data: Props = token && userType ? { userType, isAuthenticated: true } : { isAuthenticated: false };
 
