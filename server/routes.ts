@@ -13,6 +13,7 @@ import {
   deletePostHandler,
   getPostsHandler,
   getPostHandler,
+  healthCheckHandler,
 } from "./controller";
 import { createUserSchema, editUserSchema, createSessionSchema, createPostSchema, getUserSchema } from "./schema";
 import { validateRequest, requireUser, requireAdmin } from "./middleware";
@@ -22,7 +23,8 @@ export const routes = (app: Express) => {
    *  HealthCheck
    * /healthcheck
    */
-  app.get("/healthcheck", (request: Request, response: Response) => response.sendStatus(200));
+  //@ts-expect-error
+  app.get("/healthcheck", healthCheckHandler);
 
   //#region Users
   /**
