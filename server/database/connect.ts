@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { defaultConfig } from "../config";
+import { defaultConfig } from "../congfig/dev";
 import { log } from "../utils/logger";
 
 export const connect = () => {

@@ -1,5 +1,5 @@
 import { SignOptions, sign as jwtSign, verify, JwtPayload } from "jsonwebtoken";
-import { defaultConfig } from "../config";
+import { defaultConfig } from "../congfig/dev";
 import { log } from "./logger";
 
 export function sign(obj: Object, options?: SignOptions) {

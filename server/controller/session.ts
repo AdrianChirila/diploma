@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { get } from "lodash";
-import { defaultConfig } from "../config";
+import { defaultConfig } from "../congfig/dev";
 import { createAccessToken, createSession, validatePassword, updateSession, findSessions } from "../service";
 import { sign } from "../utils/jwt";
 

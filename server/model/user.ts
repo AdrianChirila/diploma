@@ -1,6 +1,6 @@
 import { Schema, model, Document } from "mongoose";
 import { compare, genSalt, hashSync } from "bcrypt";
-import { defaultConfig } from "../config";
+import { defaultConfig } from "../congfig/dev";
 
 export enum UserType {
   Student = "student",

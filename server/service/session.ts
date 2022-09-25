@@ -1,6 +1,6 @@
 import { FilterQuery, LeanDocument, UpdateQuery } from "mongoose";
 import { Session, SessionDocument, UserDocument } from "../model";
-import { defaultConfig } from "../config";
+import { defaultConfig } from "../congfig/dev";
 import { decode, sign } from "../utils/jwt";
 import { get } from "lodash";
 import { findUser } from "./user";
